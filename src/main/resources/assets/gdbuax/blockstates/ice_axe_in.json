@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "gdbuax:block/ice_axe_in"
+    },
+    "facing=east": {
+      "model": "gdbuax:block/ice_axe_in",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "gdbuax:block/ice_axe_in",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "gdbuax:block/ice_axe_in",
+      "y": 270
+    },
+    "facing=up": {
+      "model": "gdbuax:block/ice_axe_in",
+      "x": 270
+    },
+    "facing=down": {
+      "model": "gdbuax:block/ice_axe_in",
+      "x": 90
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "gdbuax:custom/ice_axe_in",
+  "textures": {
+    "all": "gdbuax:block/ice_axe",
+    "particle": "gdbuax:block/ice_axe",
+    "0": "gdbuax:block/ice_axe"
+  },
+  "render_type": "solid"
+}

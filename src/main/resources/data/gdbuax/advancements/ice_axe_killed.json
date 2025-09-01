@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "item": "better_update:ice_axe"
+    },
+    "title": {
+      "translate": "advancements.ice_axe_kill.title"
+    },
+    "description": {
+      "translate": "advancements.ice_axe_kill.descr"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "parent": "minecraft:adventure/root",
+  "criteria": {
+    "kill_with_sword": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "player": {
+          "equipment": {
+            "mainhand": {
+              "items": [
+                "better_update:ice_axe"
+              ]
+            }
+          }
+        },
+        "killing_blow": {
+          "tags": []
+        }
+      }
+    }
+  }
+}

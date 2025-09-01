@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aba",
+    " c ",
+    " d "
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:iron_ingot"
+    },
+    "b": {
+      "item": "minecraft:stick"
+    },
+    "c": {
+      "item": "minecraft:leather"
+    },
+    "d": {
+      "item": "minecraft:copper_ingot"
+    }
+  },
+  "result": {
+    "item": "gdbuax:ice_axe",
+    "count": 1
+  }
+}

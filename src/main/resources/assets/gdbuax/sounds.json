@@ -1,0 +1,10 @@
+{
+  "ice_axe_climb": {
+    "sounds": [
+      {
+        "name": "gdbuax:ice_axe_climb",
+        "stream": false
+      }
+    ]
+  }
+}

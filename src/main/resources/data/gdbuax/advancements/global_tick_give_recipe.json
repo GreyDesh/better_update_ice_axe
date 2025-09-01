@@ -1,0 +1,14 @@
+{
+  "criteria": {
+    "global_tick_give_recipe_0": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "rewards": {
+    "experience": 0,
+    "recipes": [
+      "gdbuax:ice_axe"
+    ]
+  },
+  "parent": "minecraft:story/root"
+}
