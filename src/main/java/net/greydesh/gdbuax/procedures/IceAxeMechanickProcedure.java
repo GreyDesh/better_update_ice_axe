@@ -1,13 +1,14 @@
 package net.greydesh.gdbuax.procedures;
 
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.common.extensions.ILevelExtension;
+import net.neoforged.neoforge.capabilities.Capabilities;
 
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.LevelAccessor;
@@ -19,10 +20,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.util.RandomSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
 
@@ -50,8 +52,8 @@ public class IceAxeMechanickProcedure {
 		if ((world.getBlockState(BlockPos.containing(addPosX, addPosY - 1, addPosZ))).getBlock() == Blocks.AIR) {
 			addPosY = addPosY - 1;
 		}
-		if ((entity instanceof LivingEntity _livEnt ? _livEnt.getMainHandItem() : ItemStack.EMPTY).is(ItemTags.create(new ResourceLocation((tagsItems).toLowerCase(java.util.Locale.ENGLISH))))
-				&& (entity instanceof LivingEntity _livEnt ? _livEnt.getOffhandItem() : ItemStack.EMPTY).is(ItemTags.create(new ResourceLocation((tagsItems).toLowerCase(java.util.Locale.ENGLISH))))
+		if ((entity instanceof LivingEntity _livEnt ? _livEnt.getMainHandItem() : ItemStack.EMPTY).is(ItemTags.create(ResourceLocation.parse((tagsItems).toLowerCase(java.util.Locale.ENGLISH))))
+				&& (entity instanceof LivingEntity _livEnt ? _livEnt.getOffhandItem() : ItemStack.EMPTY).is(ItemTags.create(ResourceLocation.parse((tagsItems).toLowerCase(java.util.Locale.ENGLISH))))
 				&& (world.getBlockState(BlockPos.containing(entity.getX(), entity.getY() + 1, entity.getZ()))).getBlock() == Blocks.AIR && world.getBlockState(BlockPos.containing(posX, posY, posZ)).canOcclude()) {
 			if (entity.isShiftKeyDown() && world.getBlockState(BlockPos.containing(x, y, z)).canOcclude()) {
 				world.setBlock(BlockPos.containing(addPosX, addPosY, addPosZ), GdbuaxModBlocks.ICE_AXE_IN.get().defaultBlockState(), 3);
@@ -68,21 +70,17 @@ public class IceAxeMechanickProcedure {
 							world.setBlock(_pos, _bs.setValue(_ap, _dir.getAxis()), 3);
 					}
 				}
-				if (!world.isClientSide()) {
-					BlockPos _bp = BlockPos.containing(addPosX, addPosY, addPosZ);
-					BlockEntity _blockEntity = world.getBlockEntity(_bp);
-					BlockState _bs = world.getBlockState(_bp);
-					if (_blockEntity != null)
-						_blockEntity.getPersistentData().putDouble("damage", (itemstack.getDamageValue()));
-					if (world instanceof Level _level)
-						_level.sendBlockUpdated(_bp, _bs, _bs, 3);
+				if (world instanceof ILevelExtension _ext && _ext.getCapability(Capabilities.ItemHandler.BLOCK, BlockPos.containing(addPosX, addPosY, addPosZ), null) instanceof IItemHandlerModifiable _itemHandlerModifiable) {
+					ItemStack _setstack = itemstack.copy();
+					_setstack.setCount(itemstack.getCount());
+					_itemHandlerModifiable.setStackInSlot(0, _setstack);
 				}
 				world.levelEvent(2001, BlockPos.containing(addPosX, addPosY, addPosZ), Block.getId(blockstate));
 				if (world instanceof Level _level) {
 					if (!_level.isClientSide()) {
-						_level.playSound(null, BlockPos.containing(addPosX, addPosY, addPosZ), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("gdbuax:ice_axe_climb")), SoundSource.PLAYERS, (float) 0.5, (float) (0.5 + Math.random()));
+						_level.playSound(null, BlockPos.containing(addPosX, addPosY, addPosZ), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("gdbuax:ice_axe_climb")), SoundSource.PLAYERS, (float) 0.5, (float) (0.5 + Math.random()));
 					} else {
-						_level.playLocalSound(addPosX, addPosY, addPosZ, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("gdbuax:ice_axe_climb")), SoundSource.PLAYERS, (float) 0.5, (float) (0.5 + Math.random()), false);
+						_level.playLocalSound(addPosX, addPosY, addPosZ, BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("gdbuax:ice_axe_climb")), SoundSource.PLAYERS, (float) 0.5, (float) (0.5 + Math.random()), false);
 					}
 				}
 				if ((entity instanceof LivingEntity _livEnt ? _livEnt.getOffhandItem() : ItemStack.EMPTY).getItem() == itemstack.getItem()) {
@@ -104,21 +102,18 @@ public class IceAxeMechanickProcedure {
 				}
 			} else {
 				entity.setDeltaMovement(new Vec3(0, 0.5, 0));
-				{
-					ItemStack _ist = itemstack;
-					if (_ist.hurt(1, RandomSource.create(), null)) {
-						_ist.shrink(1);
-						_ist.setDamageValue(0);
-					}
+				if (world instanceof ServerLevel _level) {
+					itemstack.hurtAndBreak(1, _level, null, _stkprov -> {
+					});
 				}
 				if (entity instanceof Player _player)
-					_player.getCooldowns().addCooldown(itemstack.getItem(), 18);
+					_player.getCooldowns().addCooldown(itemstack.getItem(), 17);
 				world.levelEvent(2001, BlockPos.containing(posX, posY, posZ), Block.getId(blockstate));
 				if (world instanceof Level _level) {
 					if (!_level.isClientSide()) {
-						_level.playSound(null, BlockPos.containing(posX, posY, posZ), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("gdbuax:ice_axe_climb")), SoundSource.PLAYERS, (float) 0.5, (float) (0.5 + Math.random()));
+						_level.playSound(null, BlockPos.containing(posX, posY, posZ), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("gdbuax:ice_axe_climb")), SoundSource.PLAYERS, (float) 0.5, (float) (0.5 + Math.random()));
 					} else {
-						_level.playLocalSound(posX, posY, posZ, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("gdbuax:ice_axe_climb")), SoundSource.PLAYERS, (float) 0.5, (float) (0.5 + Math.random()), false);
+						_level.playLocalSound(posX, posY, posZ, BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("gdbuax:ice_axe_climb")), SoundSource.PLAYERS, (float) 0.5, (float) (0.5 + Math.random()), false);
 					}
 				}
 			}
@@ -138,21 +133,17 @@ public class IceAxeMechanickProcedure {
 							world.setBlock(_pos, _bs.setValue(_ap, _dir.getAxis()), 3);
 					}
 				}
-				if (!world.isClientSide()) {
-					BlockPos _bp = BlockPos.containing(addPosX, addPosY, addPosZ);
-					BlockEntity _blockEntity = world.getBlockEntity(_bp);
-					BlockState _bs = world.getBlockState(_bp);
-					if (_blockEntity != null)
-						_blockEntity.getPersistentData().putDouble("damage", (itemstack.getDamageValue()));
-					if (world instanceof Level _level)
-						_level.sendBlockUpdated(_bp, _bs, _bs, 3);
+				if (world instanceof ILevelExtension _ext && _ext.getCapability(Capabilities.ItemHandler.BLOCK, BlockPos.containing(addPosX, addPosY, addPosZ), null) instanceof IItemHandlerModifiable _itemHandlerModifiable) {
+					ItemStack _setstack = itemstack.copy();
+					_setstack.setCount(itemstack.getCount());
+					_itemHandlerModifiable.setStackInSlot(0, _setstack);
 				}
 				world.levelEvent(2001, BlockPos.containing(addPosX, addPosY, addPosZ), Block.getId(blockstate));
 				if (world instanceof Level _level) {
 					if (!_level.isClientSide()) {
-						_level.playSound(null, BlockPos.containing(addPosX, addPosY, addPosZ), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("gdbuax:ice_axe_climb")), SoundSource.PLAYERS, (float) 0.5, (float) (0.5 + Math.random()));
+						_level.playSound(null, BlockPos.containing(addPosX, addPosY, addPosZ), BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("gdbuax:ice_axe_climb")), SoundSource.PLAYERS, (float) 0.5, (float) (0.5 + Math.random()));
 					} else {
-						_level.playLocalSound(addPosX, addPosY, addPosZ, ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("gdbuax:ice_axe_climb")), SoundSource.PLAYERS, (float) 0.5, (float) (0.5 + Math.random()), false);
+						_level.playLocalSound(addPosX, addPosY, addPosZ, BuiltInRegistries.SOUND_EVENT.get(ResourceLocation.parse("gdbuax:ice_axe_climb")), SoundSource.PLAYERS, (float) 0.5, (float) (0.5 + Math.random()), false);
 					}
 				}
 				if ((entity instanceof LivingEntity _livEnt ? _livEnt.getOffhandItem() : ItemStack.EMPTY).getItem() == itemstack.getItem()) {
@@ -177,12 +168,9 @@ public class IceAxeMechanickProcedure {
 					_entity.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 5, 0, false, false));
 				if (entity instanceof LivingEntity _entity && !_entity.level().isClientSide())
 					_entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 10, 1, false, false));
-				{
-					ItemStack _ist = itemstack;
-					if (_ist.hurt(1, RandomSource.create(), null)) {
-						_ist.shrink(1);
-						_ist.setDamageValue(0);
-					}
+				if (world instanceof ServerLevel _level) {
+					itemstack.hurtAndBreak(1, _level, null, _stkprov -> {
+					});
 				}
 			}
 		}

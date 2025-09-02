@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "better_update:ice_axe"
+      "id": "gdbuax:ice_axe"
     },
     "title": {
       "translate": "advancements.ice_axe_kill.title"
@@ -23,7 +23,7 @@
           "equipment": {
             "mainhand": {
               "items": [
-                "better_update:ice_axe"
+                "gdbuax:ice_axe"
               ]
             }
           }

@@ -1,5 +1,5 @@
 {
-  "_fv": 60,
+  "_fv": 77,
   "_type": "achievement",
   "definition": {
     "achievementName": "Global Tick Give Recipe",
@@ -16,7 +16,6 @@
     "rewardRecipes": [
       "IceAxeCraft"
     ],
-    "rewardFunction": "No function",
     "rewardXP": 0,
     "achievementType": "task",
     "parent": {

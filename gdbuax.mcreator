@@ -3,14 +3,13 @@
     {
       "name": "IceAxe",
       "type": "tool",
-      "sortid": 2,
       "compiles": true,
       "locked_code": false,
       "registry_name": "ice_axe",
       "metadata": {
         "files": [
-          "src/main/resources/assets/gdbuax/models/item/ice_axe.json",
-          "src/main/java/net/greydesh/gdbuax/item/IceAxeItem.java"
+          "src/main/java/net/greydesh/gdbuax/item/IceAxeItem.java",
+          "src/main/resources/assets/gdbuax/models/item/ice_axe.json"
         ]
       },
       "path": "~/IceAxe"
@@ -18,7 +17,6 @@
     {
       "name": "IceAxeMechanick",
       "type": "procedure",
-      "sortid": 1,
       "compiles": true,
       "locked_code": false,
       "registry_name": "ice_axe_mechanick",
@@ -66,14 +64,13 @@
     {
       "name": "IceAxeLeft",
       "type": "tool",
-      "sortid": 4,
       "compiles": true,
       "locked_code": false,
       "registry_name": "ice_axe_left",
       "metadata": {
         "files": [
-          "src/main/resources/assets/gdbuax/models/item/ice_axe_left.json",
-          "src/main/java/net/greydesh/gdbuax/item/IceAxeLeftItem.java"
+          "src/main/java/net/greydesh/gdbuax/item/IceAxeLeftItem.java",
+          "src/main/resources/assets/gdbuax/models/item/ice_axe_left.json"
         ]
       },
       "path": "~/IceAxe"
@@ -81,7 +78,6 @@
     {
       "name": "IceAxeReplace",
       "type": "procedure",
-      "sortid": 7,
       "compiles": true,
       "locked_code": false,
       "registry_name": "ice_axe_replace",
@@ -105,13 +101,12 @@
     {
       "name": "IceAxeCraft",
       "type": "recipe",
-      "sortid": 8,
       "compiles": true,
       "locked_code": false,
       "registry_name": "ice_axe_craft",
       "metadata": {
         "files": [
-          "src/main/resources/data/gdbuax/recipes/ice_axe.json"
+          "src/main/resources/data/gdbuax/recipe/ice_axe.json"
         ]
       },
       "path": "~/IceAxe"
@@ -119,17 +114,16 @@
     {
       "name": "IceAxeIn",
       "type": "block",
-      "sortid": 13,
       "compiles": true,
       "locked_code": false,
       "registry_name": "ice_axe_in",
       "metadata": {
         "files": [
-          "src/main/resources/assets/gdbuax/models/block/ice_axe_in.json",
-          "src/main/resources/data/gdbuax/loot_tables/blocks/ice_axe_in.json",
-          "src/main/java/net/greydesh/gdbuax/block/entity/IceAxeInBlockEntity.java",
-          "src/main/resources/assets/gdbuax/blockstates/ice_axe_in.json",
           "src/main/java/net/greydesh/gdbuax/block/IceAxeInBlock.java",
+          "src/main/resources/assets/gdbuax/models/block/ice_axe_in.json",
+          "src/main/resources/assets/gdbuax/blockstates/ice_axe_in.json",
+          "src/main/resources/data/gdbuax/loot_table/blocks/ice_axe_in.json",
+          "src/main/java/net/greydesh/gdbuax/block/entity/IceAxeInBlockEntity.java",
           "src/main/resources/assets/gdbuax/models/item/ice_axe_in.json"
         ]
       },
@@ -138,7 +132,6 @@
     {
       "name": "IceAxeInClick",
       "type": "procedure",
-      "sortid": 14,
       "compiles": true,
       "locked_code": false,
       "registry_name": "ice_axe_in_click",
@@ -174,13 +167,12 @@
     {
       "name": "GlobalTickGiveRecipe",
       "type": "achievement",
-      "sortid": 15,
       "compiles": true,
       "locked_code": false,
       "registry_name": "global_tick_give_recipe",
       "metadata": {
         "files": [
-          "src/main/resources/data/gdbuax/advancements/global_tick_give_recipe.json"
+          "src/main/resources/data/gdbuax/advancement/global_tick_give_recipe.json"
         ]
       },
       "path": "~/IceAxe"
@@ -198,11 +190,16 @@
     }
   ],
   "tag_elements": {
+    "ITEMS:minecraft:pickaxes": [
+      "~CUSTOM:IceAxeLeft",
+      "~CUSTOM:IceAxe"
+    ],
     "ITEMS:mod:ice_axe": [
       "CUSTOM:IceAxe",
       "CUSTOM:IceAxeLeft"
     ]
   },
+  "tab_element_order": {},
   "language_map": {
     "ru_ru": {
       "advancements.global_tick_give_recipe.descr": "Give recipe",
@@ -237,19 +234,19 @@
   "workspaceSettings": {
     "modid": "gdbuax",
     "modName": "Better Update",
-    "version": "0.1.1",
+    "version": "1.0.0",
     "author": "GreyDesh, MCreator",
     "websiteURL": "https://t.me/GrandRikSon",
     "license": "Not specified",
     "serverSideOnly": true,
-    "modPicture": "ice_axe_logo",
+    "modPicture": "ico_img",
     "requiredMods": [],
     "dependencies": [],
     "dependants": [],
     "mcreatorDependencies": [],
-    "currentGenerator": "forge-1.20.1",
+    "currentGenerator": "neoforge-1.21.1",
     "credits": "Created using mod maker MCreator - https://mcreator.net/about",
     "modElementsPackage": "net.greydesh.gdbuax"
   },
-  "mcreatorVersion": 202400118518
+  "mcreatorVersion": 202500113416
 }
